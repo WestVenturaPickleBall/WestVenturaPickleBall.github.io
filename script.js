@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const loginForm = document.getElementById('login-form');
   const bookingsList = document.getElementById('bookings-list');
   const calendarGrid = document.getElementById('calendarGrid');
+  const testimonialSlides = document.querySelectorAll('.testimonial-slide');
 
   // Initialize page states
   homepage.classList.remove('hidden');
@@ -25,10 +26,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Sample data
   let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
-  const adminCredentials = {
-    email: "admin@westventurapickleball.com",
-    password: "Pickleball123"
-  };
+  const ADMIN_PASSWORD = "riley1";
+
+  // Testimonial slider
+  let currentSlide = 0;
+  
+  function showTestimonialSlide(index) {
+    testimonialSlides.forEach((slide, i) => {
+      slide.classList.toggle('active', i === index);
+    });
+  }
+  
+  function nextTestimonialSlide() {
+    currentSlide = (currentSlide + 1) % testimonialSlides.length;
+    showTestimonialSlide(currentSlide);
+  }
+  
+  // Start testimonial rotation
+  showTestimonialSlide(0);
+  setInterval(nextTestimonialSlide, 5000);
 
   // Initialize the calendar
   function initCalendar() {
@@ -135,10 +151,9 @@ document.addEventListener('DOMContentLoaded', function () {
   loginForm.addEventListener('submit', function(e) {
     e.preventDefault();
     
-    const email = document.getElementById('admin-email').value;
     const password = document.getElementById('admin-password').value;
     
-    if (email === adminCredentials.email && password === adminCredentials.password) {
+    if (password === ADMIN_PASSWORD) {
       // Successful login
       adminLoginModal.classList.add('hidden');
       homepage.classList.add('hidden');
@@ -148,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function () {
       // Load bookings
       loadBookings();
     } else {
-      alert('Invalid credentials. Please try again.');
+      alert('Incorrect password. Please try again.');
     }
   });
 
