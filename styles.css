@@ -1,267 +1,363 @@
 /* General Styles */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  color: #ffffff; /* White text */
+  color: #333;
   line-height: 1.6;
-  background: #1a1a1a; /* Dark grey background */
+  background: #f5f5f5;
 }
 
 header {
-  background-color: #4CAF50; /* Green header */
+  background-color: #4CAF50;
   color: white;
   padding: 20px;
   text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 header h1 {
   margin: 0;
-  font-size: 2rem;
+  font-size: 2.2rem;
 }
 
 header p {
   margin: 10px 0 0;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 .hidden {
   display: none;
 }
 
-/* Homepage Styles */
-#homepage {
-  padding: 20px;
-}
-
-.hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  padding: 40px 20px;
-  background: #2a2a2a; /* Dark grey background for the hero section */
-  border-radius: 10px;
-  margin-bottom: 40px;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero::before {
-  content: '';
-  position: absolute;
-  top: -50px;
-  left: -50px;
-  width: 200px;
-  height: 200px;
-  background: radial-gradient(circle, rgba(76, 175, 80, 0.1), transparent); /* Green curved line */
-  border-radius: 50%;
-  z-index: 1;
-}
-
-.hero::after {
-  content: '';
-  position: absolute;
-  bottom: -50px;
-  right: -50px;
-  width: 200px;
-  height: 200px;
-  background: radial-gradient(circle, rgba(76, 175, 80, 0.1), transparent); /* Green curved line */
-  border-radius: 50%;
-  z-index: 1;
-}
-
-.hero-content {
-  text-align: center;
-  z-index: 2;
-}
-
-.hero-content h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-  color: #4CAF50; /* Green text for headings */
-}
-
-.hero-content p {
-  font-size: 1.1rem;
-  margin-bottom: 20px;
-  color: #ffffff; /* White text */
-}
-
-.cta-button {
-  background-color: #4CAF50; /* Green button */
+/* Button Styles */
+.cta-button, .back-button, .admin-button, .submit-button {
+  background-color: #4CAF50;
   color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-  text-decoration: none;
-  z-index: 2;
-}
-
-.cta-button:hover {
-  background-color: #45a049; /* Darker green on hover */
-}
-
-.hero-images {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 100%;
-  max-width: 800px; /* Match image width */
-  z-index: 2;
-}
-
-.hero-images img {
-  width: 800px; /* Fixed width */
-  height: 500px; /* Fixed height */
-  border-radius: 10px;
-  object-fit: cover; /* Ensure images maintain aspect ratio */
-}
-
-.features {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  background: #2a2a2a; /* Dark grey background for the features section */
-  padding: 20px;
-  border-radius: 10px;
-}
-
-.feature {
-  text-align: center;
-  padding: 20px;
-  background-color: #333333; /* Slightly lighter grey for individual features */
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 2;
-}
-
-.feature img {
-  width: 1280px;
-  height: 720px;
-  margin-bottom: 10px;
-}
-
-.feature h3 {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-  color: #4CAF50; /* Green text for headings */
-}
-
-.feature p {
-  font-size: 1rem;
-  color: #ffffff; /* White text */
-}
-
-/* Wave Background Section */
-.wave-background {
-  position: relative;
-  width: 100%;
-  height: 500px; /* Adjust height as needed */
-  overflow: hidden;
-  background: #1a1a1a; /* Dark grey background */
-}
-
-.wave-background svg {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: auto;
-  z-index: 1; /* Ensure the wave is behind the images */
-}
-
-.image-grid {
-  position: relative;
-  z-index: 2; /* Ensure images are above the wave */
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Two columns */
-  gap: 70px; /* Spacing between images */
-  padding: 20px;
-  max-width: 1200px; /* Limit the width of the grid */
-  margin: 0 auto; /* Center the grid */
-}
-
-.image-grid img {
-  width: 100%; /* Make images fill the grid cells */
-  height: 400px; /* Fixed height */
-  object-fit: cover; /* Ensure images maintain aspect ratio */
-  border-radius: 10px; /* Rounded corners */
-}
-
-/* Calendar Page Styles */
-#calendar-page {
-  padding: 20px;
-}
-
-.back-button {
-  background-color: #4CAF50; /* Green button */
-  color: white;
-  padding: 10px 20px;
+  padding: 12px 24px;
   border: none;
   border-radius: 5px;
   font-size: 1rem;
   cursor: pointer;
   text-decoration: none;
   display: inline-block;
-  margin-top: 10px;
+  margin: 10px 5px;
+  transition: all 0.3s ease;
 }
 
-.back-button:hover {
-  background-color: #45a049; /* Darker green on hover */
+.admin-button {
+  background-color: #2196F3;
 }
 
-.calendar-container {
-  background: #333333; /* Dark grey background for the calendar container */
+.submit-button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+}
+
+.cta-button:hover, .back-button:hover, .submit-button:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.admin-button:hover {
+  background-color: #0b7dda;
+}
+
+/* Homepage Styles */
+#homepage {
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-/* Simple Calendar Styles */
-.calendar {
+.hero {
   display: flex;
   flex-direction: column;
-  background: #2a2a2a; /* Dark grey background */
+  align-items: center;
+  gap: 30px;
+  padding: 40px 20px;
+  background: white;
   border-radius: 10px;
-  padding: 20px;
+  margin-bottom: 40px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.hero-content {
+  text-align: center;
+}
+
+.hero-content h2 {
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  color: #2E7D32;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: #555;
+}
+
+.hero-images img {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.feature {
+  text-align: center;
+  padding: 25px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.feature:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+.feature img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.feature h3 {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  color: #2E7D32;
+}
+
+.feature p {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* Calendar Page Styles */
+.calendar-container {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  margin: 20px auto;
+  max-width: 1200px;
+}
+
+.calendar {
+  width: 100%;
+  overflow-x: auto;
 }
 
 .calendar-header {
-  display: flex;
-  justify-content: space-between;
-  background: #333333; /* Dark grey for header */
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 10px;
+  display: grid;
+  grid-template-columns: 150px repeat(5, 1fr);
+  background: #4CAF50;
+  color: white;
+  padding: 15px;
+  border-radius: 8px 8px 0 0;
+  font-weight: bold;
 }
 
-.calendar-header .day {
-  flex: 1;
+.time-label-header {
   text-align: center;
-  font-weight: bold;
-  color: #4CAF50; /* Green text */
+}
+
+.day {
+  text-align: center;
 }
 
 .calendar-grid {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+}
+
+.time-row {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 5 days */
-  gap: 10px;
+  grid-template-columns: 150px repeat(5, 1fr);
+  min-height: 60px;
+}
+
+.time-row:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+.time-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  font-weight: bold;
+  border-right: 1px solid #ddd;
 }
 
 .timeslot {
-  background: #4CAF50; /* Green for available times */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 10px;
-  border-radius: 5px;
-  text-align: center;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: all 0.2s ease;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+.timeslot:last-child {
+  border-right: none;
+}
+
+.timeslot.available {
+  background-color: #e8f5e9;
+  color: #2E7D32;
+}
+
+.timeslot.available:hover {
+  background-color: #c8e6c9;
 }
 
 .timeslot.booked {
-  background: #666666; /* Grey for booked times */
+  background-color: #ffebee;
+  color: #c62828;
   cursor: not-allowed;
+}
+
+/* Modal Styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.close-modal {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #777;
+}
+
+.close-modal:hover {
+  color: #333;
+}
+
+#selected-time-text {
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #2E7D32;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.form-group input, .form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Admin Dashboard */
+#admin-dashboard {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.bookings-container {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+#bookings-list {
+  margin-top: 20px;
+}
+
+.booking-item {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 2fr;
+  gap: 15px;
+  align-items: center;
+}
+
+.booking-item:last-child {
+  border-bottom: none;
+}
+
+.booking-header {
+  font-weight: bold;
+  background: #f5f5f5;
+  border-radius: 5px 5px 0 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .calendar-header, .time-row {
+    grid-template-columns: 100px repeat(5, 1fr);
+  }
+  
+  .features {
+    grid-template-columns: 1fr;
+  }
+  
+  .booking-item {
+    grid-template-columns: 1fr;
+  }
+  
+  .booking-header {
+    display: none;
+  }
 }

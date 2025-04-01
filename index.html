@@ -20,9 +20,10 @@
           <h2>Improve Your Game Today</h2>
           <p>Book a coaching session with our experienced pickleball coaches and take your skills to the next level.</p>
           <a href="#calendar-page" class="cta-button">Book a Session</a>
+          <a href="#admin-login" class="admin-button">Admin Login</a>
         </div>
         <div class="hero-images">
-          <img src="court.webp" alt="Pickleball Court 1">
+          <img src="court.webp" alt="Pickleball Court">
         </div>
       </div>
       <div class="wave-background">
@@ -36,17 +37,17 @@
       </div>
       <div class="features">
         <div class="feature">
-          <img src="Main.jpg" alt="Coaching Icon">
+          <img src="image2.jpg" alt="Coaching Icon">
           <h3>Expert Coaching</h3>
           <p>Learn from certified pickleball coaches with years of experience.</p>
         </div>
         <div class="feature">
-          <img src="Person.jpg" alt="Schedule Icon">
+          <img src="image1.jpg" alt="Schedule Icon">
           <h3>Flexible Scheduling</h3>
           <p>Book sessions at your convenience with our easy-to-use calendar.</p>
         </div>
         <div class="feature">
-          <img src="community-icon.png" alt="Community Icon">
+          <img src="image0.jpg" alt="Community Icon">
           <h3>Join the Community</h3>
           <p>Connect with other players and grow your network.</p>
         </div>
@@ -54,7 +55,7 @@
     </main>
   </section>
 
-  <!-- Calendar Page sss-->
+  <!-- Calendar Page -->
   <section id="calendar-page" class="hidden">
     <header>
       <h1>West Ventura Pickleball</h1>
@@ -64,9 +65,9 @@
 
     <main>
       <div class="calendar-container">
-        <!-- Simple Calendarsss -->
         <div class="calendar">
           <div class="calendar-header">
+            <div class="time-label-header">Time</div>
             <div class="day">Monday</div>
             <div class="day">Tuesday</div>
             <div class="day">Wednesday</div>
@@ -74,15 +75,70 @@
             <div class="day">Friday</div>
           </div>
           <div class="calendar-grid" id="calendarGrid">
-            <!-- Timeslots will be dynamically added here sss-->
+            <!-- Timeslots will be dynamically added here -->
           </div>
         </div>
       </div>
     </main>
+  </section>
 
-    <footer>
-      <p>&copy; 2023 West Ventura Pickleball</p>
-    </footer>
+  <!-- Booking Modal -->
+  <div id="booking-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Book Your Session</h2>
+      <p id="selected-time-text">Selected Time: </p>
+      <form id="booking-form">
+        <div class="form-group">
+          <label for="name">Full Name:</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="comments">Special Requests:</label>
+          <textarea id="comments" name="comments" rows="3"></textarea>
+        </div>
+        <button type="submit" class="submit-button">Confirm Booking</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Login -->
+  <div id="admin-login" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Admin Login</h2>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="admin-email">Email:</label>
+          <input type="email" id="admin-email" name="admin-email" required>
+        </div>
+        <div class="form-group">
+          <label for="admin-password">Password:</label>
+          <input type="password" id="admin-password" name="admin-password" required>
+        </div>
+        <button type="submit" class="submit-button">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Dashboard -->
+  <section id="admin-dashboard" class="hidden">
+    <header>
+      <h1>West Ventura Pickleball - Admin Dashboard</h1>
+      <button id="logout-button" class="back-button">Logout</button>
+    </header>
+    <main>
+      <div class="bookings-container">
+        <h2>Upcoming Bookings</h2>
+        <div id="bookings-list">
+          <!-- Bookings will be displayed here -->
+        </div>
+      </div>
+    </main>
   </section>
 
   <script src="script.js"></script>
