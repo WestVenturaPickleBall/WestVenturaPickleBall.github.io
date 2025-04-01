@@ -46,13 +46,19 @@ header p {
 }
 
 .admin-button {
-  background-color: #2196F3;
+  background-color: #90EE90; /* Light green */
+  color: #333;
 }
 
 .submit-button {
   width: 100%;
   padding: 12px;
   margin-top: 15px;
+}
+
+.back-button {
+  background-color: #000000;
+  color: white;
 }
 
 .cta-button:hover, .back-button:hover, .submit-button:hover {
@@ -447,6 +453,7 @@ header p {
   background: white;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-align: left; /* Left align the text */
 }
 
 .week-nav-button {
@@ -463,10 +470,23 @@ header p {
   background-color: #45a049;
 }
 
+.week-nav-text {
+  color: #666;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+.week-nav-text:hover {
+  color: #4CAF50;
+}
+
 #week-display {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #333;
+  flex-grow: 1;
+  text-align: center;
 }
 
 /* Responsive Styles */

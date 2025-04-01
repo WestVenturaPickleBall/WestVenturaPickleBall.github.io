@@ -1,4 +1,3 @@
-// Replace your entire script.js with this version
 document.addEventListener('DOMContentLoaded', function () {
   // DOM Elements
   const homepage = document.getElementById('homepage');
@@ -47,7 +46,19 @@ document.addEventListener('DOMContentLoaded', function () {
     // Update week display
     const endDate = new Date(startDate);
     endDate.setDate(startDate.getDate() + 4); // Show Monday-Friday
-    weekDisplay.textContent = `Week of ${formatDate(startDate)} to ${formatDate(endDate)}`;
+    
+    // Format dates as "3/31 - 4/4" style
+    const startDateFormatted = formatDisplayDate(startDate);
+    const endDateFormatted = formatDisplayDate(endDate);
+    
+    let weekText = `Current Week: ${startDateFormatted} - ${endDateFormatted}`;
+    if (currentWeekOffset < 0) {
+      weekText = `Previous Week: ${startDateFormatted} - ${endDateFormatted}`;
+    } else if (currentWeekOffset > 0) {
+      weekText = `Next Week: ${startDateFormatted} - ${endDateFormatted}`;
+    }
+    
+    weekDisplay.textContent = weekText;
     
     const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
     const startTime = 9; // 9 AM
@@ -121,9 +132,9 @@ document.addEventListener('DOMContentLoaded', function () {
     return d.toISOString().split('T')[0];
   }
 
-  // Format date for display (e.g., "Oct 15")
+  // Format date for display (e.g., "3/31")
   function formatDisplayDate(dateString) {
-    const options = { month: 'short', day: 'numeric' };
+    const options = { month: 'numeric', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
   }
 
@@ -131,13 +142,15 @@ document.addEventListener('DOMContentLoaded', function () {
   function openBookingModal(day, hour, dateString, weekStart) {
     const displayHour = hour > 12 ? hour - 12 : hour;
     const ampm = hour >= 12 ? 'PM' : 'AM';
-    selectedTimeText.textContent = `${day}, ${formatDisplayDate(dateString)} at ${displayHour}:00 ${ampm}`;
+    const displayDate = formatDisplayDate(dateString);
+    selectedTimeText.textContent = `${day}, ${displayDate} at ${displayHour}:00 ${ampm}`;
     
     // Store the selected time in the form
     bookingForm.dataset.day = day;
     bookingForm.dataset.time = `${hour}:00`;
     bookingForm.dataset.date = dateString;
     bookingForm.dataset.weekStart = weekStart;
+    bookingForm.dataset.displayDate = `${day}, ${displayDate}`;
     
     bookingModal.classList.remove('hidden');
   }
@@ -153,6 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const time = bookingForm.dataset.time;
     const date = bookingForm.dataset.date;
     const weekStart = bookingForm.dataset.weekStart;
+    const displayDate = bookingForm.dataset.displayDate;
     
     // Create new booking
     const newBooking = {
@@ -160,6 +174,7 @@ document.addEventListener('DOMContentLoaded', function () {
       day,
       time,
       date,
+      displayDate,
       weekStart,
       name,
       email,
@@ -239,7 +254,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const bookingItem = document.createElement('div');
       bookingItem.classList.add('booking-item');
       bookingItem.innerHTML = `
-        <div>${formatDisplayDate(booking.date)} (${booking.day})</div>
+        <div>${booking.displayDate}</div>
         <div>${formatTime(booking.time)}</div>
         <div>${booking.name}</div>
         <div>
