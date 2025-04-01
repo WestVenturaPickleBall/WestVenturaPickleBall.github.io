@@ -1,10 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
   // DOM Elements
-  homepage.classList.remove('hidden');
-  calendarPage.classList.add('hidden');
-  adminDashboard.classList.add('hidden');
-  bookingModal.classList.add('hidden');
-  adminLoginModal.classList.add('hidden');
   const homepage = document.getElementById('homepage');
   const calendarPage = document.getElementById('calendar-page');
   const adminDashboard = document.getElementById('admin-dashboard');
@@ -21,7 +16,14 @@ document.addEventListener('DOMContentLoaded', function () {
   const bookingsList = document.getElementById('bookings-list');
   const calendarGrid = document.getElementById('calendarGrid');
 
-  // Sample data (in a real app, this would come from a database)
+  // Initialize page states
+  homepage.classList.remove('hidden');
+  calendarPage.classList.add('hidden');
+  adminDashboard.classList.add('hidden');
+  bookingModal.classList.add('hidden');
+  adminLoginModal.classList.add('hidden');
+
+  // Sample data
   let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
   const adminCredentials = {
     email: "admin@westventurapickleball.com",
@@ -207,17 +209,6 @@ document.addEventListener('DOMContentLoaded', function () {
     homepage.classList.remove('hidden');
   });
 
-  adminButton.addEventListener('click', function (event) {
-    event.preventDefault();
-    adminLoginModal.classList.remove('hidden');
-  });
-
-  logoutButton.addEventListener('click', function() {
-    adminDashboard.classList.add('hidden');
-    homepage.classList.remove('hidden');
-    loginForm.reset();
-  });
-
   // Close modals when clicking X
   closeModals.forEach(btn => {
     btn.addEventListener('click', function() {
@@ -234,6 +225,13 @@ document.addEventListener('DOMContentLoaded', function () {
     if (event.target === adminLoginModal) {
       adminLoginModal.classList.add('hidden');
     }
+  });
+
+  // Logout button
+  logoutButton.addEventListener('click', function() {
+    adminDashboard.classList.add('hidden');
+    homepage.classList.remove('hidden');
+    loginForm.reset();
   });
 
   // Initialize the calendar on first load
