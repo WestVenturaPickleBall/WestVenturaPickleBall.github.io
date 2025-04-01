@@ -402,8 +402,9 @@ header p {
   }
 }
 /* Booking Modal Styles */
+/* Modal Styles */
 .modal {
-  display: none;
+  display: none; /* Changed from flex to none */
   position: fixed;
   z-index: 100;
   left: 0;
@@ -413,6 +414,10 @@ header p {
   background-color: rgba(0,0,0,0.7);
   align-items: center;
   justify-content: center;
+}
+
+.modal:not(.hidden) {
+  display: flex; /* Only show when not hidden */
 }
 
 .modal-content {

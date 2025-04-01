@@ -5,6 +5,18 @@ document.addEventListener('DOMContentLoaded', function() {
   const ctaButton = document.querySelector('.cta-button');
   const backButton = document.querySelector('.back-button');
   
+  // Modal elements
+  const modal = document.getElementById('booking-modal');
+  const closeModal = document.querySelector('.close-modal');
+  const bookingForm = document.getElementById('booking-form');
+  const selectedTimeDisplay = document.getElementById('selected-time-display');
+  
+  let selectedTimeSlot = null;
+
+  // Initialize modal as hidden
+  modal.classList.add('hidden');
+
+  // Page navigation handlers
   ctaButton.addEventListener('click', function(event) {
     event.preventDefault();
     homepage.classList.add('hidden');
@@ -18,27 +30,17 @@ document.addEventListener('DOMContentLoaded', function() {
     homepage.classList.remove('hidden');
   });
 
-  // Modal elements
-  const modal = document.getElementById('booking-modal');
-  const closeModal = document.querySelector('.close-modal');
-  const bookingForm = document.getElementById('booking-form');
-  const selectedTimeDisplay = document.getElementById('selected-time-display');
-  
-  let selectedTimeSlot = null;
-
-  // Close modal when clicking X
+  // Modal handlers
   closeModal.addEventListener('click', function() {
     modal.classList.add('hidden');
   });
 
-  // Close modal when clicking outside
   window.addEventListener('click', function(event) {
     if (event.target === modal) {
       modal.classList.add('hidden');
     }
   });
 
-  // Form submission
   bookingForm.addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -67,14 +69,13 @@ document.addEventListener('DOMContentLoaded', function() {
       localStorage.setItem('pickleballBookings', JSON.stringify(bookings));
     }
     
-    // Reset form and close modal
     bookingForm.reset();
     modal.classList.add('hidden');
   });
 
   function initializeCalendar() {
     const calendarGrid = document.getElementById('calendarGrid');
-    calendarGrid.innerHTML = ''; // Clear existing slots
+    calendarGrid.innerHTML = '';
     
     const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
     const times = [];

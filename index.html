@@ -86,25 +86,25 @@
   </section>
 
   <script src="script.js"></script>
-  <div id="booking-modal" class="modal hidden">
-    <div class="modal-content">
-      <span class="close-modal">&times;</span>
-      <h2>Book Your Session</h2>
-      <form id="booking-form">
-        <div class="form-group">
-          <label for="name">Full Name:</label>
-          <input type="text" id="name" required>
-        </div>
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" id="email" required>
-        </div>
-        <div class="form-group">
-          <p id="selected-time-display"></p>
-        </div>
-        <button type="submit" class="submit-btn">Confirm Booking</button>
-      </form>
-    </div>
+  <!-- Add this just before your closing </body> tag -->
+<div id="booking-modal" class="modal hidden">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h2>Book Your Session</h2>
+    <form id="booking-form">
+      <div class="form-group">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+      </div>
+      <div class="form-group">
+        <p id="selected-time-display"></p>
+      </div>
+      <button type="submit" class="submit-btn">Confirm Booking</button>
+    </form>
   </div>
-</body>
+</div>
 </html>
