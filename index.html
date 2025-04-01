@@ -58,28 +58,24 @@
   <section id="calendar-page" class="hidden">
     <header>
       <h1>West Ventura Pickleball</h1>
-      <p>Check below for available coaching times:</p>
+      <p>Book your court time below:</p>
       <a href="#homepage" class="back-button">Back to Home</a>
     </header>
-
+  
     <main>
-      <div class="calendar-container">
-        <!-- Simple Calendarsss -->
-        <div class="calendar">
-          <div class="calendar-header">
-            <div class="day">Monday</div>
-            <div class="day">Tuesday</div>
-            <div class="day">Wednesday</div>
-            <div class="day">Thursday</div>
-            <div class="day">Friday</div>
-          </div>
-          <div class="calendar-grid" id="calendarGrid">
-            <!-- Timeslots will be dynamically added here sss-->
-          </div>
-        </div>
+      <div class="week-navigation">
+        <button id="prev-week">Previous Week</button>
+        <div id="week-display"></div>
+        <button id="next-week">Next Week</button>
       </div>
+  
+      <div class="calendar-container">
+        <div id="calendar-grid"></div>
+      </div>
+  
+      <button id="admin-btn" class="admin-button">View Bookings</button>
     </main>
-
+  
     <footer>
       <p>&copy; 2023 West Ventura Pickleball</p>
     </footer>
@@ -107,4 +103,12 @@
     </form>
   </div>
 </div>
+<div id="admin-modal" class="modal hidden">
+  <div class="modal-content">
+    <span class="close-admin-modal">&times;</span>
+    <h2>All Bookings</h2>
+    <div id="bookings-list"></div>
+  </div>
+</div>
 </html>
+</body>
