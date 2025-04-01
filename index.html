@@ -17,39 +17,35 @@
     <main>
       <div class="hero">
         <div class="hero-content">
-          <h2>Testimonial from Rod R</h2>
-          <p>Malisa is a fantastic pickleball coach who exudes support and encouragement to all her students. Her direct and clear instruction style makes learning new techniques and strategies easy and enjoyable. Thanks to Malisa's guidance, my pickleball game has improved significantly.</p>
-          <a href="#" class="cta-button" id="book-now-btn">Book a Session</a>
+          <h2>Improve Your Game Today</h2>
+          <p>Book a coaching session with our experienced pickleball coaches and take your skills to the next level.</p>
+          <a href="#calendar-page" class="cta-button">Book a Session</a>
         </div>
-        <div class="hero-image">
-          <img src="court.webp" alt="Pickleball Court">
+        <div class="hero-images">
+          <img src="court.webp" alt="Pickleball Court 1">
         </div>
       </div>
-      
       <div class="wave-background">
         <svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
           <path fill="#4CAF50" fill-opacity="0.1" d="M0,160L48,149.3C96,139,192,117,288,128C384,139,480,181,576,181.3C672,181,768,139,864,128C960,117,1056,139,1152,149.3C1248,160,1344,160,1392,160L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
         </svg>
+        <div class="image-grid">
+          <img src="image.jpg" alt="Pickleball Court 1">
+          <img src="image0.jpg" alt="Pickleball Court 2">
+        </div>
       </div>
-      
-      <div class="image-gallery">
-        <img src="image1.jpg" alt="Pickleball coaching">
-        <img src="image2.jpg" alt="Pickleball game">
-        <img src="image3.jpg" alt="Pickleball community">
-      </div>
-      
       <div class="features">
-        <div class="feature-card">
-          <img src="coaching-icon.png" alt="Coaching Icon">
+        <div class="feature">
+          <img src="Main.jpg" alt="Coaching Icon">
           <h3>Expert Coaching</h3>
           <p>Learn from certified pickleball coaches with years of experience.</p>
         </div>
-        <div class="feature-card">
-          <img src="schedule-icon.png" alt="Schedule Icon">
+        <div class="feature">
+          <img src="Person.jpg" alt="Schedule Icon">
           <h3>Flexible Scheduling</h3>
           <p>Book sessions at your convenience with our easy-to-use calendar.</p>
         </div>
-        <div class="feature-card">
+        <div class="feature">
           <img src="community-icon.png" alt="Community Icon">
           <h3>Join the Community</h3>
           <p>Connect with other players and grow your network.</p>
@@ -58,63 +54,36 @@
     </main>
   </section>
 
-  <!-- Calendar Page -->
+  <!-- Calendar Page sss-->
   <section id="calendar-page" class="hidden">
     <header>
       <h1>West Ventura Pickleball</h1>
-      <p>Book your court time below:</p>
-      <a href="#" class="back-button" id="back-to-home">Back to Home</a>
+      <p>Check below for available coaching times:</p>
+      <a href="#homepage" class="back-button">Back to Home</a>
     </header>
-    
-    <div class="calendar-controls">
-      <button id="prev-week">❮ Previous Week</button>
-      <div id="week-display">Week of [Date]</div>
-      <button id="next-week">Next Week ❯</button>
-    </div>
-    
-    <div class="calendar-wrapper">
-      <div id="calendar-grid"></div>
-    </div>
-    
-    <button id="view-bookings-btn" class="admin-button">View All Bookings</button>
-    
+
+    <main>
+      <div class="calendar-container">
+        <!-- Simple Calendarsss -->
+        <div class="calendar">
+          <div class="calendar-header">
+            <div class="day">Monday</div>
+            <div class="day">Tuesday</div>
+            <div class="day">Wednesday</div>
+            <div class="day">Thursday</div>
+            <div class="day">Friday</div>
+          </div>
+          <div class="calendar-grid" id="calendarGrid">
+            <!-- Timeslots will be dynamically added here sss-->
+          </div>
+        </div>
+      </div>
+    </main>
+
     <footer>
       <p>&copy; 2023 West Ventura Pickleball</p>
     </footer>
   </section>
-
-  <!-- Booking Modal -->
-  <div id="booking-modal" class="modal hidden">
-    <div class="modal-content">
-      <span class="close-modal">&times;</span>
-      <h2>Book Your Session</h2>
-      <form id="booking-form">
-        <div class="form-group">
-          <label for="name">Full Name:</label>
-          <input type="text" id="name" required>
-        </div>
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" id="email" required>
-        </div>
-        <div class="form-group">
-          <p id="selected-time-display">Selected: Monday, Jan 1 at 9:00 AM</p>
-        </div>
-        <button type="submit" class="submit-btn">Confirm Booking</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Admin Modal -->
-  <div id="admin-modal" class="modal hidden">
-    <div class="modal-content">
-      <span class="close-admin-modal">&times;</span>
-      <h2>All Bookings</h2>
-      <div id="bookings-list">
-        <!-- Bookings will be inserted here -->
-      </div>
-    </div>
-  </div>
 
   <script src="script.js"></script>
 </body>
