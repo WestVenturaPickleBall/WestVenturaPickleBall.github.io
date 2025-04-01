@@ -1,5 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
   // DOM Elements
+  homepage.classList.remove('hidden');
+  calendarPage.classList.add('hidden');
+  adminDashboard.classList.add('hidden');
+  bookingModal.classList.add('hidden');
+  adminLoginModal.classList.add('hidden');
   const homepage = document.getElementById('homepage');
   const calendarPage = document.getElementById('calendar-page');
   const adminDashboard = document.getElementById('admin-dashboard');
