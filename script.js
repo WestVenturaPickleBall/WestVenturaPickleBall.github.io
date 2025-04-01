@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const adminDashboard = document.getElementById('admin-dashboard');
   const ctaButton = document.querySelector('.cta-button');
   const backButton = document.querySelector('.back-button');
-  const adminButton = document.querySelector('.admin-button');
+  const adminButton = document.getElementById('admin-button'); // Changed to getElementById
   const logoutButton = document.getElementById('logout-button');
   const bookingModal = document.getElementById('booking-modal');
   const adminLoginModal = document.getElementById('admin-login');
@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const loginForm = document.getElementById('login-form');
   const bookingsList = document.getElementById('bookings-list');
   const calendarGrid = document.getElementById('calendarGrid');
-  const testimonialSlides = document.querySelectorAll('.testimonial-slide');
 
   // Initialize page states
   homepage.classList.remove('hidden');
@@ -28,24 +27,6 @@ document.addEventListener('DOMContentLoaded', function () {
   let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
   const ADMIN_PASSWORD = "riley1";
 
-  // Testimonial slider
-  let currentSlide = 0;
-  
-  function showTestimonialSlide(index) {
-    testimonialSlides.forEach((slide, i) => {
-      slide.classList.toggle('active', i === index);
-    });
-  }
-  
-  function nextTestimonialSlide() {
-    currentSlide = (currentSlide + 1) % testimonialSlides.length;
-    showTestimonialSlide(currentSlide);
-  }
-  
-  // Start testimonial rotation
-  showTestimonialSlide(0);
-  setInterval(nextTestimonialSlide, 5000);
-
   // Initialize the calendar
   function initCalendar() {
     calendarGrid.innerHTML = '';
@@ -53,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const startTime = 9; // 9 AM
     const endTime = 18; // 6 PM
 
-    // Create time slots
     for (let hour = startTime; hour < endTime; hour++) {
       const timeRow = document.createElement('div');
       timeRow.classList.add('time-row');
@@ -71,11 +51,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const timeslot = document.createElement('div');
         timeslot.classList.add('timeslot');
         
-        const timeString = `${day} at ${displayHour}:00 ${ampm}`;
-        timeslot.dataset.day = day;
-        timeslot.dataset.time = `${hour}:00`;
-        
-        // Check if this timeslot is already booked
         const isBooked = bookings.some(booking => 
           booking.day === day && booking.time === `${hour}:00`
         );
@@ -86,10 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
           timeslot.classList.add('available');
           timeslot.textContent = 'Available';
-          
-          timeslot.addEventListener('click', function() {
-            openBookingModal(day, hour);
-          });
+          timeslot.addEventListener('click', () => openBookingModal(day, hour));
         }
         
         timeRow.appendChild(timeslot);
@@ -99,77 +71,59 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Open booking modal with selected time
+  // Open booking modal
   function openBookingModal(day, hour) {
     const displayHour = hour > 12 ? hour - 12 : hour;
     const ampm = hour >= 12 ? 'PM' : 'AM';
     selectedTimeText.textContent = `Selected Time: ${day} at ${displayHour}:00 ${ampm}`;
-    
-    // Store the selected time in the form
     bookingForm.dataset.day = day;
     bookingForm.dataset.time = `${hour}:00`;
-    
     bookingModal.classList.remove('hidden');
   }
 
-  // Handle booking form submission
+  // Handle booking form
   bookingForm.addEventListener('submit', function(e) {
     e.preventDefault();
     
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const comments = document.getElementById('comments').value;
-    const day = bookingForm.dataset.day;
-    const time = bookingForm.dataset.time;
-    
-    // Create new booking
     const newBooking = {
       id: Date.now(),
-      day,
-      time,
-      name,
-      email,
-      comments,
+      day: bookingForm.dataset.day,
+      time: bookingForm.dataset.time,
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      comments: document.getElementById('comments').value,
       bookedAt: new Date().toISOString()
     };
     
-    // Add to bookings array and save to localStorage
     bookings.push(newBooking);
     localStorage.setItem('bookings', JSON.stringify(bookings));
     
-    // Reset form and close modal
     bookingForm.reset();
     bookingModal.classList.add('hidden');
-    
-    // Reinitialize calendar to show updated availability
     initCalendar();
-    
-    alert('Your booking has been confirmed!');
+    alert('Booking confirmed!');
   });
 
+  // ADMIN FUNCTIONALITY
   // Handle admin button click
   adminButton.addEventListener('click', function(e) {
     e.preventDefault();
     adminLoginModal.classList.remove('hidden');
   });
 
-  // Handle admin login form submission
+  // Handle admin login
   loginForm.addEventListener('submit', function(e) {
     e.preventDefault();
-    
     const password = document.getElementById('admin-password').value;
     
     if (password === ADMIN_PASSWORD) {
-      // Successful login
       adminLoginModal.classList.add('hidden');
       homepage.classList.add('hidden');
       calendarPage.classList.add('hidden');
       adminDashboard.classList.remove('hidden');
-      
-      // Load bookings
       loadBookings();
     } else {
-      alert('Incorrect password. Please try again.');
+      alert('Incorrect password. Try "riley1"');
     }
   });
 
@@ -178,18 +132,18 @@ document.addEventListener('DOMContentLoaded', function () {
     bookingsList.innerHTML = '';
     
     if (bookings.length === 0) {
-      bookingsList.innerHTML = '<p>No bookings have been made yet.</p>';
+      bookingsList.innerHTML = '<p>No bookings yet</p>';
       return;
     }
     
-    // Add header
+    // Create header
     const header = document.createElement('div');
     header.classList.add('booking-item', 'booking-header');
     header.innerHTML = `
       <div>Day</div>
       <div>Time</div>
       <div>Name</div>
-      <div>Contact Info</div>
+      <div>Contact</div>
     `;
     bookingsList.appendChild(header);
     
@@ -202,40 +156,39 @@ document.addEventListener('DOMContentLoaded', function () {
         <div>${formatTime(booking.time)}</div>
         <div>${booking.name}</div>
         <div>
-          <p>Email: ${booking.email}</p>
-          ${booking.comments ? `<p>Comments: ${booking.comments}</p>` : ''}
-          <small>Booked on: ${new Date(booking.bookedAt).toLocaleString()}</small>
+          <p>${booking.email}</p>
+          ${booking.comments ? `<p>${booking.comments}</p>` : ''}
         </div>
       `;
       bookingsList.appendChild(bookingItem);
     });
   }
 
-  // Helper function to format time
+  // Helper function
   function formatTime(timeString) {
     const [hour, minute] = timeString.split(':');
     const hourNum = parseInt(hour);
     const displayHour = hourNum > 12 ? hourNum - 12 : hourNum;
     const ampm = hourNum >= 12 ? 'PM' : 'AM';
-    return `${displayHour}:${minute} ${ampm}`;
+    return `${displayHour}:00 ${ampm}`;
   }
 
-  // Event listeners for navigation
-  ctaButton.addEventListener('click', function (event) {
-    event.preventDefault();
+  // Navigation
+  ctaButton.addEventListener('click', function(e) {
+    e.preventDefault();
     homepage.classList.add('hidden');
     calendarPage.classList.remove('hidden');
     initCalendar();
   });
 
-  backButton.addEventListener('click', function (event) {
-    event.preventDefault();
+  backButton.addEventListener('click', function(e) {
+    e.preventDefault();
     calendarPage.classList.add('hidden');
     adminDashboard.classList.add('hidden');
     homepage.classList.remove('hidden');
   });
 
-  // Close modals when clicking X
+  // Close modals
   closeModals.forEach(btn => {
     btn.addEventListener('click', function() {
       bookingModal.classList.add('hidden');
@@ -243,23 +196,18 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Close modals when clicking outside
-  window.addEventListener('click', function(event) {
-    if (event.target === bookingModal) {
-      bookingModal.classList.add('hidden');
-    }
-    if (event.target === adminLoginModal) {
-      adminLoginModal.classList.add('hidden');
-    }
+  window.addEventListener('click', function(e) {
+    if (e.target === bookingModal) bookingModal.classList.add('hidden');
+    if (e.target === adminLoginModal) adminLoginModal.classList.add('hidden');
   });
 
-  // Logout button
+  // Logout
   logoutButton.addEventListener('click', function() {
     adminDashboard.classList.add('hidden');
     homepage.classList.remove('hidden');
-    loginForm.reset();
+    document.getElementById('admin-password').value = '';
   });
 
-  // Initialize the calendar on first load
+  // Initialize
   initCalendar();
 });
