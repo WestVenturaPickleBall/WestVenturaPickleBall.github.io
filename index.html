@@ -54,7 +54,7 @@
     </main>
   </section>
 
-  <!-- Calendar Page sss-->
+  <!-- Calendar Page -->
   <section id="calendar-page" class="hidden">
     <header>
       <h1>West Ventura Pickleball</h1>
@@ -81,34 +81,37 @@
     </footer>
   </section>
 
+  <!-- Booking Modal -->
+  <div id="booking-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Book Your Session</h2>
+      <form id="booking-form">
+        <div class="form-group">
+          <label for="name">Full Name:</label>
+          <input type="text" id="name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" required>
+        </div>
+        <div class="form-group">
+          <p id="selected-time-display"></p>
+        </div>
+        <button type="submit" class="submit-btn">Confirm Booking</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Modal -->
+  <div id="admin-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-admin-modal">&times;</span>
+      <h2>All Bookings</h2>
+      <div id="bookings-list"></div>
+    </div>
+  </div>
+
   <script src="script.js"></script>
-  <!-- Add this just before your closing </body> tag -->
-<div id="booking-modal" class="modal hidden">
-  <div class="modal-content">
-    <span class="close-modal">&times;</span>
-    <h2>Book Your Session</h2>
-    <form id="booking-form">
-      <div class="form-group">
-        <label for="name">Full Name:</label>
-        <input type="text" id="name" required>
-      </div>
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" required>
-      </div>
-      <div class="form-group">
-        <p id="selected-time-display"></p>
-      </div>
-      <button type="submit" class="submit-btn">Confirm Booking</button>
-    </form>
-  </div>
-</div>
-<div id="admin-modal" class="modal hidden">
-  <div class="modal-content">
-    <span class="close-admin-modal">&times;</span>
-    <h2>All Bookings</h2>
-    <div id="bookings-list"></div>
-  </div>
-</div>
-</html>
 </body>
+</html>
