@@ -438,6 +438,37 @@ header p {
   border-radius: 5px 5px 0 0;
 }
 
+.week-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.week-nav-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.week-nav-button:hover {
+  background-color: #45a049;
+}
+
+#week-display {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
 /* Responsive Styles */
 @media (max-width: 768px) {
   .calendar-header, .time-row {
