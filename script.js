@@ -147,7 +147,13 @@ document.addEventListener('DOMContentLoaded', function () {
     alert('Your booking has been confirmed!');
   });
 
-  // Handle admin login
+  // Handle admin button click
+  adminButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    adminLoginModal.classList.remove('hidden');
+  });
+
+  // Handle admin login form submission
   loginForm.addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -170,6 +176,11 @@ document.addEventListener('DOMContentLoaded', function () {
   // Load bookings for admin
   function loadBookings() {
     bookingsList.innerHTML = '';
+    
+    if (bookings.length === 0) {
+      bookingsList.innerHTML = '<p>No bookings have been made yet.</p>';
+      return;
+    }
     
     // Add header
     const header = document.createElement('div');
