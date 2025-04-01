@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
       adminDashboard.classList.remove('hidden');
       loadBookings();
     } else {
-      alert('Incorrect password. Try "riley1"');
+      alert('Incorrect password.');
     }
   });
 
