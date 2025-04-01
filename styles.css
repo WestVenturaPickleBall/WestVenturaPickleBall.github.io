@@ -1,218 +1,254 @@
-/* Calendar Grid */
-#calendar-grid {
+/* Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f9f9f9;
+}
+
+header {
+  background-color: #4CAF50;
+  color: white;
+  padding: 2rem;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+header p {
+  font-size: 1.1rem;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Homepage Styles */
+#homepage {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.hero {
   display: flex;
   flex-direction: column;
+  gap: 2rem;
+  margin: 2rem 0;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.hero-content h2 {
+  color: #2E7D32;
+  margin-bottom: 1rem;
+}
+
+.hero-image img {
   width: 100%;
-  overflow-x: auto;
-  background: #2a2a2a;
   border-radius: 8px;
-  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-.calendar-header-row {
-  display: flex;
-  border-bottom: 2px solid #4CAF50;
+.wave-background {
+  margin: 2rem 0;
+  background-color: #E8F5E9;
+  padding-bottom: 2rem;
 }
 
-.calendar-time-row {
-  display: flex;
-  min-height: 60px;
-  border-bottom: 1px solid #444;
+.image-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
 }
 
-.calendar-header-cell {
-  flex: 1;
-  min-width: 120px;
-  padding: 10px;
+.image-gallery img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.feature-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   text-align: center;
-  font-weight: bold;
-  color: #4CAF50;
-  background: #333;
 }
 
-.calendar-time-cell {
-  flex: 1;
-  min-width: 80px;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background: #333;
-  color: #fff;
-  font-weight: bold;
+.feature-card img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 1rem;
 }
 
-.calendar-slot {
-  flex: 1;
-  min-width: 120px;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background: #2a2a2a;
+.feature-card h3 {
+  color: #2E7D32;
+  margin-bottom: 0.5rem;
+}
+
+/* Button Styles */
+.cta-button, .back-button, .submit-btn, .admin-button {
+  display: inline-block;
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
   cursor: pointer;
-  transition: all 0.2s ease;
-  position: relative;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  margin-top: 1rem;
 }
 
-.calendar-slot:hover:not(.booked) {
-  background: #3a3a3a;
+.cta-button:hover, .back-button:hover, .submit-btn:hover, .admin-button:hover {
+  background-color: #388E3C;
 }
 
-.calendar-slot.booked {
-  background: #666;
-  cursor: not-allowed;
+/* Calendar Page Styles */
+#calendar-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
 }
 
-.booked-indicator {
-  color: #ccc;
-  font-size: 0.9em;
-}
-
-/* Week Navigation */
-.week-navigation {
+.calendar-controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 20px 0;
-  padding: 10px 0;
-  border-bottom: 1px solid #444;
+  margin: 2rem 0;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.week-navigation button {
-  background: #4CAF50;
+.calendar-controls button {
+  background-color: #4CAF50;
   color: white;
   border: none;
   padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
 }
 
-.week-navigation button:hover {
-  background: #45a049;
+.calendar-wrapper {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 1rem;
+  overflow-x: auto;
 }
 
-.week-navigation button:disabled {
-  background: #666;
+#calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr); /* 1 column for time + 7 days */
+  min-width: 800px;
+}
+
+.calendar-header {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.calendar-time {
+  background-color: #E8F5E9;
+  padding: 12px;
+  text-align: center;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+.calendar-slot {
+  padding: 12px;
+  text-align: center;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.calendar-slot:hover {
+  background-color: #E8F5E9;
+}
+
+.calendar-slot.booked {
+  background-color: #f5f5f5;
+  color: #999;
   cursor: not-allowed;
 }
 
-#week-display {
-  font-weight: bold;
-  color: #4CAF50;
-  font-size: 16px;
-}
-
-/* Admin Button */
-.admin-button {
-  background: #333;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 20px;
-  font-size: 14px;
-}
-
-.admin-button:hover {
-  background: #444;
-}
-
-/* Modals */
+/* Modal Styles */
 .modal {
-  display: none;
   position: fixed;
-  z-index: 100;
-  left: 0;
   top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.7);
-  align-items: center;
-  justify-content: center;
-}
-
-.modal:not(.hidden) {
+  background-color: rgba(0,0,0,0.5);
   display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
 .modal-content {
-  background: #2a2a2a;
-  padding: 30px;
-  border-radius: 10px;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
   width: 90%;
   max-width: 500px;
   position: relative;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  max-height: 80vh;
-  overflow-y: auto;
 }
 
 .close-modal, .close-admin-modal {
   position: absolute;
-  top: 15px;
-  right: 15px;
-  font-size: 24px;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
   cursor: pointer;
-  color: #fff;
-}
-
-.close-modal:hover, .close-admin-modal:hover {
-  color: #4CAF50;
-}
-
-/* Booking Form */
-#booking-form {
-  display: flex;
-  flex-direction: column;
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 8px;
-  color: #fff;
+  margin-bottom: 0.5rem;
   font-weight: bold;
 }
 
 .form-group input {
   width: 100%;
-  padding: 12px;
-  border-radius: 5px;
-  border: 1px solid #444;
-  background: #333;
-  color: #fff;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
   font-size: 1rem;
-}
-
-#selected-time-display {
-  color: #4CAF50;
-  font-weight: bold;
-  margin: 10px 0;
-  text-align: center;
-}
-
-.submit-btn {
-  background: #4CAF50;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  width: 100%;
-  font-size: 16px;
-  margin-top: 10px;
-}
-
-.submit-btn:hover {
-  background: #45a049;
 }
 
 /* Admin Modal */
@@ -220,45 +256,28 @@
   max-width: 800px;
 }
 
+#bookings-list {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
 .booking-item {
-  margin-bottom: 15px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #444;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
 }
 
-.booking-item:last-child {
-  border-bottom: none;
-}
-
-.booking-item p {
-  margin: 5px 0;
-  color: #fff;
-}
-
-.booking-item hr {
-  border-color: #444;
-  margin: 10px 0;
-}
-
-/* Responsive */
+/* Responsive Styles */
 @media (max-width: 768px) {
-  .calendar-header-cell, .calendar-slot {
-    min-width: 80px;
-    font-size: 12px;
-    padding: 5px;
-  }
-  
-  .calendar-time-cell {
-    min-width: 60px;
-    font-size: 12px;
-  }
-  
-  .week-navigation {
+  .hero {
     flex-direction: column;
-    gap: 10px;
   }
   
-  .modal-content {
-    padding: 20px;
+  .features {
+    grid-template-columns: 1fr;
+  }
+  
+  .calendar-controls {
+    flex-direction: column;
+    gap: 1rem;
   }
 }

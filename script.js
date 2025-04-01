@@ -1,67 +1,98 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // Elements
+  // DOM Elements
   const homepage = document.getElementById('homepage');
   const calendarPage = document.getElementById('calendar-page');
-  const ctaButton = document.querySelector('.cta-button');
-  const backButton = document.querySelector('.back-button');
+  const bookNowBtn = document.getElementById('book-now-btn');
+  const backToHomeBtn = document.getElementById('back-to-home');
   const prevWeekBtn = document.getElementById('prev-week');
   const nextWeekBtn = document.getElementById('next-week');
   const weekDisplay = document.getElementById('week-display');
-  const modal = document.getElementById('booking-modal');
-  const closeModal = document.querySelector('.close-modal');
+  const calendarGrid = document.getElementById('calendar-grid');
+  const bookingModal = document.getElementById('booking-modal');
+  const closeModalBtn = document.querySelector('.close-modal');
   const bookingForm = document.getElementById('booking-form');
   const selectedTimeDisplay = document.getElementById('selected-time-display');
-  const calendarGrid = document.getElementById('calendar-grid');
-  const adminBtn = document.getElementById('admin-btn');
   const adminModal = document.getElementById('admin-modal');
-  const closeAdminModal = document.querySelector('.close-admin-modal');
+  const viewBookingsBtn = document.getElementById('view-bookings-btn');
+  const closeAdminModalBtn = document.querySelector('.close-admin-modal');
   const bookingsList = document.getElementById('bookings-list');
 
-  let selectedTimeSlot = null;
+  // State
   let currentWeekOffset = 0;
-
-  // Initialize
-  modal.classList.add('hidden');
-  adminModal.classList.add('hidden');
+  let selectedSlot = null;
 
   // Event Listeners
-  ctaButton.addEventListener('click', showCalendarPage);
-  backButton.addEventListener('click', showHomepage);
-  prevWeekBtn.addEventListener('click', function() { 
-    currentWeekOffset--; 
-    renderCalendar(); 
-  });
-  nextWeekBtn.addEventListener('click', function() { 
-    currentWeekOffset++; 
-    renderCalendar(); 
-  });
-  closeModal.addEventListener('click', function() { 
-    modal.classList.add('hidden'); 
-  });
-  bookingForm.addEventListener('submit', handleBookingSubmit);
-  adminBtn.addEventListener('click', showAdminModal);
-  closeAdminModal.addEventListener('click', function() { 
-    adminModal.classList.add('hidden'); 
-  });
-
-  // Main Functions
-  function showCalendarPage() {
+  bookNowBtn.addEventListener('click', function(e) {
+    e.preventDefault();
     homepage.classList.add('hidden');
     calendarPage.classList.remove('hidden');
     renderCalendar();
-  }
+  });
 
-  function showHomepage() {
+  backToHomeBtn.addEventListener('click', function(e) {
+    e.preventDefault();
     calendarPage.classList.add('hidden');
     homepage.classList.remove('hidden');
-  }
+  });
 
+  prevWeekBtn.addEventListener('click', function() {
+    currentWeekOffset--;
+    renderCalendar();
+  });
+
+  nextWeekBtn.addEventListener('click', function() {
+    currentWeekOffset++;
+    renderCalendar();
+  });
+
+  closeModalBtn.addEventListener('click', function() {
+    bookingModal.classList.add('hidden');
+  });
+
+  viewBookingsBtn.addEventListener('click', function() {
+    showAdminModal();
+  });
+
+  closeAdminModalBtn.addEventListener('click', function() {
+    adminModal.classList.add('hidden');
+  });
+
+  bookingForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+
+    if (selectedSlot) {
+      // Save booking
+      const booking = {
+        date: selectedSlot.dataset.date,
+        day: selectedSlot.dataset.day,
+        time: selectedSlot.dataset.time,
+        name: name,
+        email: email,
+        timestamp: new Date().toISOString()
+      };
+
+      saveBooking(booking);
+      
+      // Update UI
+      selectedSlot.classList.add('booked');
+      selectedSlot.textContent = 'Booked';
+      selectedSlot.removeEventListener('click', handleSlotClick);
+      
+      // Close modal
+      bookingModal.classList.add('hidden');
+      bookingForm.reset();
+    }
+  });
+
+  // Calendar Functions
   function renderCalendar() {
     const startDate = getStartOfWeek(currentWeekOffset);
     const endDate = new Date(startDate);
-    endDate.setDate(startDate.getDate() + 7);
+    endDate.setDate(startDate.getDate() + 6); // +6 days for full week
     
-    weekDisplay.textContent = `Week of ${formatDate(startDate)} to ${formatDate(new Date(endDate.setDate(endDate.getDate() - 1))}`;
+    weekDisplay.textContent = `Week of ${formatDate(startDate)} to ${formatDate(endDate)}`;
     
     calendarGrid.innerHTML = '';
     createCalendarHeader();
@@ -70,73 +101,57 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function createCalendarHeader() {
     const headerRow = document.createElement('div');
-    headerRow.className = 'calendar-header-row';
+    headerRow.className = 'calendar-header';
+    headerRow.textContent = 'Time';
     
-    // Empty cell for time column
-    headerRow.appendChild(createHeaderCell('Time'));
-    
-    // Create day headers (Monday-Sunday)
     const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     const startDate = getStartOfWeek(currentWeekOffset);
     
     days.forEach(function(day, index) {
       const date = new Date(startDate);
       date.setDate(startDate.getDate() + index);
-      headerRow.appendChild(createHeaderCell(`${day}<br>${formatShortDate(date)}`));
+      
+      const dayHeader = document.createElement('div');
+      dayHeader.className = 'calendar-header';
+      dayHeader.textContent = `${day} (${formatShortDate(date)})`;
+      dayHeader.dataset.date = date.toISOString().split('T')[0];
+      headerRow.appendChild(dayHeader);
     });
     
     calendarGrid.appendChild(headerRow);
   }
 
-  function createHeaderCell(content) {
-    const cell = document.createElement('div');
-    cell.className = 'calendar-header-cell';
-    cell.innerHTML = content;
-    return cell;
-  }
-
   function createTimeSlots(startDate) {
     const times = [];
-    // Generate times from 9AM to 5PM hourly
     for (let hour = 9; hour <= 17; hour++) {
       times.push(`${hour}:00 ${hour < 12 ? 'AM' : 'PM'}`);
     }
 
     times.forEach(function(time) {
       const timeRow = document.createElement('div');
-      timeRow.className = 'calendar-time-row';
+      timeRow.className = 'calendar-time';
+      timeRow.textContent = time;
       
-      // Time label cell
-      const timeCell = document.createElement('div');
-      timeCell.className = 'calendar-time-cell';
-      timeCell.textContent = time;
-      timeRow.appendChild(timeCell);
-      
-      // Create cells for each day
       const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
       
-      days.forEach(function(day, dayIndex) {
+      days.forEach(function(day, index) {
         const date = new Date(startDate);
-        date.setDate(startDate.getDate() + dayIndex);
+        date.setDate(startDate.getDate() + index);
         const dateString = date.toISOString().split('T')[0];
         
         const slot = document.createElement('div');
         slot.className = 'calendar-slot';
         slot.dataset.date = dateString;
-        slot.dataset.time = time;
         slot.dataset.day = day;
+        slot.dataset.time = time;
         
         // Check if slot is booked
         const booking = getBooking(dateString, time);
         if (booking) {
           slot.classList.add('booked');
-          slot.dataset.name = booking.name;
-          slot.dataset.email = booking.email;
-          slot.innerHTML = '<span class="booked-indicator">Booked</span>';
+          slot.textContent = 'Booked';
         } else {
-          slot.addEventListener('click', function() {
-            openBookingModal(slot);
-          });
+          slot.addEventListener('click', handleSlotClick);
         }
         
         timeRow.appendChild(slot);
@@ -146,39 +161,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  function openBookingModal(slot) {
-    selectedTimeSlot = slot;
-    selectedTimeDisplay.textContent = `${slot.dataset.day}, ${formatDate(new Date(slot.dataset.date))} at ${slot.dataset.time}`;
-    modal.classList.remove('hidden');
+  function handleSlotClick() {
+    selectedSlot = this;
+    selectedTimeDisplay.textContent = `Selected: ${this.dataset.day}, ${formatDate(new Date(this.dataset.date))} at ${this.dataset.time}`;
+    bookingModal.classList.remove('hidden');
   }
 
-  function handleBookingSubmit(e) {
-    e.preventDefault();
-
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    
-    if (selectedTimeSlot) {
-    
-      selectedTimeSlot.classList.add('booked');
-      selectedTimeSlot.innerHTML = `<span class="booked-indicator">Booked</span>`;
-      selectedTimeSlot.dataset.name = name;
-      selectedTimeSlot.dataset.email = email;
-      
-      saveBooking({
-        date: selectedTimeSlot.dataset.date,
-        time: selectedTimeSlot.dataset.time,
-        day: selectedTimeSlot.dataset.day,
-        name: name,
-        email: email,
-        timestamp: new Date().toISOString()
-      });
-    }
-    
-    bookingForm.reset();
-    modal.classList.add('hidden');
-  }
-
+  // Admin Functions
   function showAdminModal() {
     const bookings = JSON.parse(localStorage.getItem('pickleballBookings')) || [];
     bookingsList.innerHTML = '';
@@ -193,7 +182,6 @@ document.addEventListener('DOMContentLoaded', function() {
           <p><strong>${booking.day}</strong> - ${formatDate(new Date(booking.date))} at ${booking.time}</p>
           <p>Name: ${booking.name}</p>
           <p>Email: ${booking.email}</p>
-          <hr>
         `;
         bookingsList.appendChild(bookingItem);
       });
@@ -202,8 +190,22 @@ document.addEventListener('DOMContentLoaded', function() {
     adminModal.classList.remove('hidden');
   }
 
-  // Helper functions
-  function getStartOfWeek(weekOffset) {
+  // Storage Functions
+  function saveBooking(booking) {
+    const bookings = JSON.parse(localStorage.getItem('pickleballBookings')) || [];
+    bookings.push(booking);
+    localStorage.setItem('pickleballBookings', JSON.stringify(bookings));
+  }
+
+  function getBooking(date, time) {
+    const bookings = JSON.parse(localStorage.getItem('pickleballBookings')) || [];
+    return bookings.find(function(booking) {
+      return booking.date === date && booking.time === time;
+    });
+  }
+
+  // Utility Functions
+  function getStartOfWeek(weekOffset = 0) {
     const date = new Date();
     const day = date.getDay();
     const diff = date.getDate() - day + (day === 0 ? -6 : 1); // Adjust to Monday
@@ -219,19 +221,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function formatShortDate(date) {
     return date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' });
-  }
-
-  function saveBooking(booking) {
-    const bookings = JSON.parse(localStorage.getItem('pickleballBookings')) || [];
-    bookings.push(booking);
-    localStorage.setItem('pickleballBookings', JSON.stringify(bookings));
-  }
-
-  function getBooking(date, time) {
-    const bookings = JSON.parse(localStorage.getItem('pickleballBookings')) || [];
-    return bookings.find(function(b) { 
-      return b.date === date && b.time === time; 
-    });
   }
 
   // Initialize
