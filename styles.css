@@ -401,3 +401,95 @@ header p {
       padding: 10px;
   }
 }
+/* Booking Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: #2a2a2a;
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+}
+
+.close-modal {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.close-modal:hover {
+  color: #4CAF50;
+}
+
+/* Form Styles */
+#booking-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #fff;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #444;
+  background: #333;
+  color: #fff;
+  font-size: 1rem;
+}
+
+#selected-time-display {
+  color: #4CAF50;
+  font-weight: bold;
+  margin: 10px 0;
+  text-align: center;
+}
+
+.submit-btn {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.submit-btn:hover {
+  background: #45a049;
+}
+
+/* Booked Slot Styles */
+.booked-info {
+  font-size: 0.8rem;
+  color: #ccc;
+  margin-top: 5px;
+  word-break: break-all;
+}

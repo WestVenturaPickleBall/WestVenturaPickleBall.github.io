@@ -48,11 +48,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (selectedTimeSlot) {
       // Mark as booked
       selectedTimeSlot.classList.add('booked');
-      selectedTimeSlot.innerHTML = `
-        <strong>${selectedTimeSlot.dataset.time}</strong>
-        <div class="booked-by">Booked by: ${name}</div>
-      `;
+      selectedTimeSlot.textContent = `${selectedTimeSlot.dataset.time} - Booked`;
       selectedTimeSlot.dataset.booked = "true";
+      selectedTimeSlot.dataset.name = name;
+      selectedTimeSlot.dataset.email = email;
       
       // Store booking in localStorage
       const bookingData = {
@@ -77,8 +76,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const calendarGrid = document.getElementById('calendarGrid');
     calendarGrid.innerHTML = ''; // Clear existing slots
     
-    const days = ['Monday', 'Wednesday', 'Friday'];
-    const times = ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM'];
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    const times = [];
+    
+    // Generate times from 9AM to 5PM
+    for (let hour = 9; hour <= 17; hour++) {
+      const timeString = hour <= 12 ? `${hour}:00 AM` : `${hour-12}:00 PM`;
+      times.push(timeString);
+    }
     
     // Load existing bookings
     const bookings = JSON.parse(localStorage.getItem('pickleballBookings') || '[]');
@@ -89,18 +94,14 @@ document.addEventListener('DOMContentLoaded', function() {
         timeslot.classList.add('timeslot');
         
         // Check if this slot is already booked
-        const isBooked = bookings.some(booking => 
-          booking.day === day && booking.time === time
-        );
+        const booking = bookings.find(b => b.day === day && b.time === time);
         
-        if (isBooked) {
-          const booking = bookings.find(b => b.day === day && b.time === time);
+        if (booking) {
           timeslot.classList.add('booked');
-          timeslot.innerHTML = `
-            <strong>${time}</strong>
-            <div class="booked-by">Booked by: ${booking.name}</div>
-          `;
+          timeslot.textContent = `${time} - Booked`;
           timeslot.dataset.booked = "true";
+          timeslot.dataset.name = booking.name;
+          timeslot.dataset.email = booking.email;
         } else {
           timeslot.textContent = time;
           timeslot.dataset.booked = "false";
