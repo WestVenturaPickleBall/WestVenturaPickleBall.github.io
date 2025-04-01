@@ -27,14 +27,24 @@ document.addEventListener('DOMContentLoaded', function() {
   // Event Listeners
   ctaButton.addEventListener('click', showCalendarPage);
   backButton.addEventListener('click', showHomepage);
-  prevWeekBtn.addEventListener('click', () => { currentWeekOffset--; renderCalendar(); });
-  nextWeekBtn.addEventListener('click', () => { currentWeekOffset++; renderCalendar(); });
-  closeModal.addEventListener('click', () => modal.classList.add('hidden'));
+  prevWeekBtn.addEventListener('click', function() { 
+    currentWeekOffset--; 
+    renderCalendar(); 
+  });
+  nextWeekBtn.addEventListener('click', function() { 
+    currentWeekOffset++; 
+    renderCalendar(); 
+  });
+  closeModal.addEventListener('click', function() { 
+    modal.classList.add('hidden'); 
+  });
   bookingForm.addEventListener('submit', handleBookingSubmit);
   adminBtn.addEventListener('click', showAdminModal);
-  closeAdminModal.addEventListener('click', () => adminModal.classList.add('hidden'));
+  closeAdminModal.addEventListener('click', function() { 
+    adminModal.classList.add('hidden'); 
+  });
 
-  // Functions
+  // Main Functions
   function showCalendarPage() {
     homepage.classList.add('hidden');
     calendarPage.classList.remove('hidden');
@@ -69,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     const startDate = getStartOfWeek(currentWeekOffset);
     
-    days.forEach((day, index) => {
+    days.forEach(function(day, index) {
       const date = new Date(startDate);
       date.setDate(startDate.getDate() + index);
       headerRow.appendChild(createHeaderCell(`${day}<br>${formatShortDate(date)}`));
@@ -92,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
       times.push(`${hour}:00 ${hour < 12 ? 'AM' : 'PM'}`);
     }
 
-    times.forEach(time => {
+    times.forEach(function(time) {
       const timeRow = document.createElement('div');
       timeRow.className = 'calendar-time-row';
       
@@ -105,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Create cells for each day
       const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
       
-      days.forEach((day, dayIndex) => {
+      days.forEach(function(day, dayIndex) {
         const date = new Date(startDate);
         date.setDate(startDate.getDate() + dayIndex);
         const dateString = date.toISOString().split('T')[0];
@@ -122,9 +132,11 @@ document.addEventListener('DOMContentLoaded', function() {
           slot.classList.add('booked');
           slot.dataset.name = booking.name;
           slot.dataset.email = booking.email;
-          slot.innerHTML = `<span class="booked-indicator">Booked</span>`;
+          slot.innerHTML = '<span class="booked-indicator">Booked</span>';
         } else {
-          slot.addEventListener('click', () => openBookingModal(slot));
+          slot.addEventListener('click', function() {
+            openBookingModal(slot);
+          });
         }
         
         timeRow.appendChild(slot);
@@ -168,13 +180,13 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function showAdminModal() {
-    const bookings = JSON.parse(localStorage.getItem('pickleballBookings') || [];
+    const bookings = JSON.parse(localStorage.getItem('pickleballBookings')) || [];
     bookingsList.innerHTML = '';
     
     if (bookings.length === 0) {
       bookingsList.innerHTML = '<p>No bookings yet.</p>';
     } else {
-      bookings.forEach(booking => {
+      bookings.forEach(function(booking) {
         const bookingItem = document.createElement('div');
         bookingItem.className = 'booking-item';
         bookingItem.innerHTML = `
@@ -191,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Helper functions
-  function getStartOfWeek(weekOffset = 0) {
+  function getStartOfWeek(weekOffset) {
     const date = new Date();
     const day = date.getDay();
     const diff = date.getDate() - day + (day === 0 ? -6 : 1); // Adjust to Monday
@@ -210,14 +222,16 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function saveBooking(booking) {
-    const bookings = JSON.parse(localStorage.getItem('pickleballBookings') || [];
+    const bookings = JSON.parse(localStorage.getItem('pickleballBookings')) || [];
     bookings.push(booking);
     localStorage.setItem('pickleballBookings', JSON.stringify(bookings));
   }
 
   function getBooking(date, time) {
-    const bookings = JSON.parse(localStorage.getItem('pickleballBookings') || []);
-    return bookings.find(b => b.date === date && b.time === time);
+    const bookings = JSON.parse(localStorage.getItem('pickleballBookings')) || [];
+    return bookings.find(function(b) { 
+      return b.date === date && b.time === time; 
+    });
   }
 
   // Initialize
