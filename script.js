@@ -266,7 +266,25 @@ document.addEventListener('DOMContentLoaded', function () {
       bookingsList.appendChild(bookingItem);
     });
   }
+  // Testimonial rotation
+function rotateTestimonials() {
+  const testimonialContainer = document.querySelector('.testimonial-container');
+  const slides = document.querySelectorAll('.testimonial-slide');
+  let currentIndex = 0;
+  
+  // Show first slide
+  slides[currentIndex].classList.add('active');
+  
+  // Rotate every 7 seconds
+  setInterval(() => {
+    slides[currentIndex].classList.remove('active');
+    currentIndex = (currentIndex + 1) % slides.length;
+    slides[currentIndex].classList.add('active');
+  }, 7000);
+}
 
+// Call this function at the end of your DOMContentLoaded event listener
+rotateTestimonials();
   // Helper function to format time
   function formatTime(timeString) {
     const [hour, minute] = timeString.split(':');
