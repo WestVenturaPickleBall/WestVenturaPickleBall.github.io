@@ -155,47 +155,64 @@ document.addEventListener('DOMContentLoaded', function () {
     bookingModal.classList.remove('hidden');
   }
 
-  // Handle booking form submission
-  bookingForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const comments = document.getElementById('comments').value;
-    const day = bookingForm.dataset.day;
-    const time = bookingForm.dataset.time;
-    const date = bookingForm.dataset.date;
-    const weekStart = bookingForm.dataset.weekStart;
-    const displayDate = bookingForm.dataset.displayDate;
-    
-    // Create new booking
-    const newBooking = {
-      id: Date.now(),
-      day,
-      time,
-      date,
-      displayDate,
-      weekStart,
-      name,
-      email,
-      comments,
-      bookedAt: new Date().toISOString()
-    };
-    
-    // Add to bookings array and save to localStorage
-    bookings.push(newBooking);
-    localStorage.setItem('bookings', JSON.stringify(bookings));
-    
-    // Reset form and close modal
-    bookingForm.reset();
+  // Handle booking form submission (updated for FormSubmit + localStorage)
+bookingForm.addEventListener('submit', function(e) {
+  e.preventDefault(); // We'll submit programmatically
+  
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const comments = document.getElementById('comments').value;
+  const day = bookingForm.dataset.day;
+  const time = bookingForm.dataset.time;
+  const date = bookingForm.dataset.date;
+  const weekStart = bookingForm.dataset.weekStart;
+  const displayDate = bookingForm.dataset.displayDate;
+  
+  // 1. Save to localStorage (your existing functionality)
+  const newBooking = {
+    id: Date.now(),
+    day,
+    time,
+    date,
+    displayDate,
+    weekStart,
+    name,
+    email,
+    comments,
+    bookedAt: new Date().toISOString()
+  };
+  
+  bookings.push(newBooking);
+  localStorage.setItem('bookings', JSON.stringify(bookings));
+  
+  // 2. Prepare data for FormSubmit
+  document.getElementById('form-day').value = displayDate;
+  document.getElementById('form-time').value = formatTime(time);
+  document.getElementById('form-date').value = date;
+  
+  // 3. Submit to FormSubmit
+  fetch(bookingForm.action, {
+    method: 'POST',
+    body: new FormData(bookingForm),
+  })
+  .then(response => {
+    if (response.ok) {
+      // Show thank-you message
+      window.location.hash = "thank-you";
+      bookingModal.classList.add('hidden');
+      bookingForm.reset();
+      initCalendar(); // Refresh calendar
+    } else {
+      throw new Error('Form submission failed');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('Booking was saved locally but email notification failed. Malisa will still see your booking!');
     bookingModal.classList.add('hidden');
-    
-    // Reinitialize calendar to show updated availability
     initCalendar();
-    
-    alert('Your booking has been confirmed!');
   });
-
+});
   // Handle admin button click
   adminButton.addEventListener('click', function(e) {
     e.preventDefault();

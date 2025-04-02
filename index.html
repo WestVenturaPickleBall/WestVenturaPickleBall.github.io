@@ -80,6 +80,20 @@
           <p>Connect with other players and grow your network.</p>
         </div>
       </div>
+      <!-- Add this to your homepage section -->
+<div id="thank-you" style="display: none; text-align: center; padding: 50px; background: white; border-radius: 10px; margin: 20px auto; max-width: 600px;">
+  <h2 style="color: #4CAF50;">🎾 Booking Confirmed!</h2>
+  <p>Thank you for booking with West Ventura Pickleball.</p>
+  <p>Malisa will contact you shortly to confirm your session.</p>
+  <a href="#" class="cta-button">Return to Home</a>
+</div>
+
+<script>
+  // Show thank-you message when URL has #thank-you
+  if (window.location.hash === '#thank-you') {
+    document.getElementById('thank-you').style.display = 'block';
+  }
+</script>
     </main>
   </section>
 
@@ -119,28 +133,43 @@
   </section>
 
   <!-- Booking Modal -->
-  <div id="booking-modal" class="modal hidden">
-    <div class="modal-content">
-      <span class="close-modal">&times;</span>
-      <h2>Book Your Session</h2>
-      <p id="selected-time-text">Selected Time: </p>
-      <form id="booking-form">
-        <div class="form-group">
-          <label for="name">Full Name:</label>
-          <input type="text" id="name" name="name" required>
-        </div>
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" id="email" name="email" required>
-        </div>
-        <div class="form-group">
-          <label for="comments">Special Requests:</label>
-          <textarea id="comments" name="comments" rows="3"></textarea>
-        </div>
-        <button type="submit" class="submit-button">Confirm Booking</button>
-      </form>
-    </div>
+<div id="booking-modal" class="modal hidden">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h2>Book Your Session</h2>
+    <p id="selected-time-text">Selected Time: </p>
+    <form 
+      id="booking-form" 
+      action="https://formsubmit.co/malisawacker@yahoo.com" 
+      method="POST"
+    >
+      <input type="hidden" name="_subject" value="New Pickleball Booking!">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="#thank-you" id="thank-you-redirect">
+      
+      <!-- Hidden fields for booking details -->
+      <input type="hidden" id="form-day" name="Day">
+      <input type="hidden" id="form-time" name="Time">
+      <input type="hidden" id="form-date" name="Date">
+      
+      <div class="form-group">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="Name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="Email" required>
+      </div>
+      <div class="form-group">
+        <label for="comments">Special Requests:</label>
+        <textarea id="comments" name="Special Requests" rows="3"></textarea>
+      </div>
+      <button type="submit" class="submit-button">Confirm Booking</button>
+    </form>
   </div>
+</div>
+
 
   <!-- Admin Login -->
   <div id="admin-login" class="modal hidden">
