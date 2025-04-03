@@ -155,9 +155,9 @@ document.addEventListener('DOMContentLoaded', function () {
     bookingModal.classList.remove('hidden');
   }
 
-  // Handle booking form submission (updated for FormSubmit + localStorage)
+// Handle booking form submission (updated)
 bookingForm.addEventListener('submit', function(e) {
-  e.preventDefault(); // We'll submit programmatically
+  e.preventDefault();
   
   const name = document.getElementById('name').value;
   const email = document.getElementById('email').value;
@@ -168,7 +168,7 @@ bookingForm.addEventListener('submit', function(e) {
   const weekStart = bookingForm.dataset.weekStart;
   const displayDate = bookingForm.dataset.displayDate;
   
-  // 1. Save to localStorage (your existing functionality)
+  // 1. Save to localStorage
   const newBooking = {
     id: Date.now(),
     day,
@@ -184,34 +184,41 @@ bookingForm.addEventListener('submit', function(e) {
   
   bookings.push(newBooking);
   localStorage.setItem('bookings', JSON.stringify(bookings));
-  
-  // 2. Prepare data for FormSubmit
+
+  // 2. Prepare FormSubmit data
   document.getElementById('form-day').value = displayDate;
   document.getElementById('form-time').value = formatTime(time);
   document.getElementById('form-date').value = date;
+
+  // 3. Show thank-you message immediately
+  const thankYouMessage = document.getElementById('thank-you-message');
+  thankYouMessage.classList.remove('hidden');
   
-  // 3. Submit to FormSubmit
+  // 4. Submit to FormSubmit in background
   fetch(bookingForm.action, {
     method: 'POST',
     body: new FormData(bookingForm),
   })
   .then(response => {
-    if (response.ok) {
-      // Show thank-you message
-      window.location.hash = "thank-you";
-      bookingModal.classList.add('hidden');
-      bookingForm.reset();
-      initCalendar(); // Refresh calendar
-    } else {
-      throw new Error('Form submission failed');
+    if (!response.ok) {
+      console.error('FormSubmit error');
     }
   })
   .catch(error => {
     console.error('Error:', error);
-    alert('Booking was saved locally but email notification failed. Malisa will still see your booking!');
+  })
+  .finally(() => {
+    // Reset form and close modal
+    bookingForm.reset();
     bookingModal.classList.add('hidden');
     initCalendar();
   });
+});
+
+// Close thank-you message when clicking the button
+document.querySelector('#thank-you-message .cta-button').addEventListener('click', function(e) {
+  e.preventDefault();
+  document.getElementById('thank-you-message').classList.add('hidden');
 });
   // Handle admin button click
   adminButton.addEventListener('click', function(e) {
