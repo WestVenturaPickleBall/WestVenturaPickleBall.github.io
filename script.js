@@ -156,9 +156,11 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
 // Handle booking form submission (updated)
+// Handle booking form submission
 bookingForm.addEventListener('submit', function(e) {
   e.preventDefault();
   
+  // Get form values
   const name = document.getElementById('name').value;
   const email = document.getElementById('email').value;
   const comments = document.getElementById('comments').value;
@@ -168,7 +170,7 @@ bookingForm.addEventListener('submit', function(e) {
   const weekStart = bookingForm.dataset.weekStart;
   const displayDate = bookingForm.dataset.displayDate;
   
-  // 1. Save to localStorage
+  // Create new booking
   const newBooking = {
     id: Date.now(),
     day,
@@ -182,43 +184,42 @@ bookingForm.addEventListener('submit', function(e) {
     bookedAt: new Date().toISOString()
   };
   
+  // Save to localStorage
   bookings.push(newBooking);
   localStorage.setItem('bookings', JSON.stringify(bookings));
 
-  // 2. Prepare FormSubmit data
+  // Set FormSubmit hidden fields
   document.getElementById('form-day').value = displayDate;
   document.getElementById('form-time').value = formatTime(time);
   document.getElementById('form-date').value = date;
 
-  // 3. Show thank-you message immediately
-  const thankYouMessage = document.getElementById('thank-you-message');
-  thankYouMessage.classList.remove('hidden');
+  // Show thank you message
+  document.getElementById('thank-you-message').style.display = 'flex';
   
-  // 4. Submit to FormSubmit in background
+  // Submit to FormSubmit (in background)
   fetch(bookingForm.action, {
     method: 'POST',
     body: new FormData(bookingForm),
   })
   .then(response => {
     if (!response.ok) {
-      console.error('FormSubmit error');
+      console.error('Form submission failed');
     }
   })
   .catch(error => {
     console.error('Error:', error);
-  })
-  .finally(() => {
-    // Reset form and close modal
-    bookingForm.reset();
-    bookingModal.classList.add('hidden');
-    initCalendar();
   });
+
+  // Reset form and close booking modal
+  bookingForm.reset();
+  bookingModal.classList.add('hidden');
+  initCalendar();
 });
 
-// Close thank-you message when clicking the button
-document.querySelector('#thank-you-message .cta-button').addEventListener('click', function(e) {
+// Close thank you message
+document.getElementById('thank-you-close').addEventListener('click', function(e) {
   e.preventDefault();
-  document.getElementById('thank-you-message').classList.add('hidden');
+  document.getElementById('thank-you-message').style.display = 'none';
 });
   // Handle admin button click
   adminButton.addEventListener('click', function(e) {
