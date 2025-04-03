@@ -1,3 +1,4 @@
+// script.js
 document.addEventListener('DOMContentLoaded', function () {
   // DOM Elements
   const homepage = document.getElementById('homepage');
@@ -18,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const prevWeekBtn = document.getElementById('prev-week');
   const nextWeekBtn = document.getElementById('next-week');
   const weekDisplay = document.getElementById('week-display');
+  const thankYouMessage = document.getElementById('thank-you-message');
 
   // Initialize page states
   homepage.classList.remove('hidden');
@@ -25,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
   adminDashboard.classList.add('hidden');
   bookingModal.classList.add('hidden');
   adminLoginModal.classList.add('hidden');
+  thankYouMessage.style.display = 'none';
 
   // Sample data
   let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
@@ -155,72 +158,71 @@ document.addEventListener('DOMContentLoaded', function () {
     bookingModal.classList.remove('hidden');
   }
 
-// Handle booking form submission (updated)
-// Handle booking form submission
-bookingForm.addEventListener('submit', function(e) {
-  e.preventDefault();
-  
-  // Get form values
-  const name = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
-  const comments = document.getElementById('comments').value;
-  const day = bookingForm.dataset.day;
-  const time = bookingForm.dataset.time;
-  const date = bookingForm.dataset.date;
-  const weekStart = bookingForm.dataset.weekStart;
-  const displayDate = bookingForm.dataset.displayDate;
-  
-  // Create new booking
-  const newBooking = {
-    id: Date.now(),
-    day,
-    time,
-    date,
-    displayDate,
-    weekStart,
-    name,
-    email,
-    comments,
-    bookedAt: new Date().toISOString()
-  };
-  
-  // Save to localStorage
-  bookings.push(newBooking);
-  localStorage.setItem('bookings', JSON.stringify(bookings));
+  // Handle booking form submission
+  bookingForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const comments = document.getElementById('comments').value;
+    const day = bookingForm.dataset.day;
+    const time = bookingForm.dataset.time;
+    const date = bookingForm.dataset.date;
+    const weekStart = bookingForm.dataset.weekStart;
+    const displayDate = bookingForm.dataset.displayDate;
+    
+    // Create new booking
+    const newBooking = {
+      id: Date.now(),
+      day,
+      time,
+      date,
+      displayDate,
+      weekStart,
+      name,
+      email,
+      comments,
+      bookedAt: new Date().toISOString()
+    };
+    
+    // Add to bookings array and save to localStorage
+    bookings.push(newBooking);
+    localStorage.setItem('bookings', JSON.stringify(bookings));
 
-  // Set FormSubmit hidden fields
-  document.getElementById('form-day').value = displayDate;
-  document.getElementById('form-time').value = formatTime(time);
-  document.getElementById('form-date').value = date;
+    // Set FormSubmit hidden fields
+    document.getElementById('form-day').value = displayDate;
+    document.getElementById('form-time').value = formatTime(time);
+    document.getElementById('form-date').value = date;
 
-  // Show thank you message
-  document.getElementById('thank-you-message').style.display = 'flex';
-  
-  // Submit to FormSubmit (in background)
-  fetch(bookingForm.action, {
-    method: 'POST',
-    body: new FormData(bookingForm),
-  })
-  .then(response => {
-    if (!response.ok) {
-      console.error('Form submission failed');
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
+    // Show thank you message
+    document.getElementById('thank-you-message').style.display = 'flex';
+    
+    // Submit to FormSubmit (in background)
+    fetch(bookingForm.action, {
+      method: 'POST',
+      body: new FormData(bookingForm),
+    })
+    .then(response => {
+      if (!response.ok) {
+        console.error('Form submission failed');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+
+    // Reset form and close modal
+    bookingForm.reset();
+    bookingModal.classList.add('hidden');
+    initCalendar();
   });
 
-  // Reset form and close booking modal
-  bookingForm.reset();
-  bookingModal.classList.add('hidden');
-  initCalendar();
-});
+  // Close thank you message
+  document.getElementById('thank-you-close').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('thank-you-message').style.display = 'none';
+  });
 
-// Close thank you message
-document.getElementById('thank-you-close').addEventListener('click', function(e) {
-  e.preventDefault();
-  document.getElementById('thank-you-message').style.display = 'none';
-});
   // Handle admin button click
   adminButton.addEventListener('click', function(e) {
     e.preventDefault();
@@ -291,25 +293,7 @@ document.getElementById('thank-you-close').addEventListener('click', function(e)
       bookingsList.appendChild(bookingItem);
     });
   }
-  // Testimonial rotation
-function rotateTestimonials() {
-  const testimonialContainer = document.querySelector('.testimonial-container');
-  const slides = document.querySelectorAll('.testimonial-slide');
-  let currentIndex = 0;
-  
-  // Show first slide
-  slides[currentIndex].classList.add('active');
-  
-  // Rotate every 7 seconds
-  setInterval(() => {
-    slides[currentIndex].classList.remove('active');
-    currentIndex = (currentIndex + 1) % slides.length;
-    slides[currentIndex].classList.add('active');
-  }, 7000);
-}
 
-// Call this function at the end of your DOMContentLoaded event listener
-rotateTestimonials();
   // Helper function to format time
   function formatTime(timeString) {
     const [hour, minute] = timeString.split(':');
@@ -371,6 +355,24 @@ rotateTestimonials();
     loginForm.reset();
   });
 
-  // Initialize the calendar on first load
+  // Testimonial rotation
+  function rotateTestimonials() {
+    const testimonialContainer = document.querySelector('.testimonial-container');
+    const slides = document.querySelectorAll('.testimonial-slide');
+    let currentIndex = 0;
+    
+    // Show first slide
+    slides[currentIndex].classList.add('active');
+    
+    // Rotate every 7 seconds
+    setInterval(() => {
+      slides[currentIndex].classList.remove('active');
+      currentIndex = (currentIndex + 1) % slides.length;
+      slides[currentIndex].classList.add('active');
+    }, 7000);
+  }
+
+  // Initialize the calendar and testimonials on first load
   initCalendar();
+  rotateTestimonials();
 });

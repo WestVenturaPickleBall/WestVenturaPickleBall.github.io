@@ -249,10 +249,8 @@
         thankYouMessage.style.display = 'none';
       });
       
-      // Show thank you message if URL has hash
-      if (window.location.hash === '#thank-you') {
-        thankYouMessage.style.display = 'flex';
-      }
+      // Remove the automatic hash-based display
+      // We'll show it only after successful booking
     });
     
     // Image fix for Malisa's photo
