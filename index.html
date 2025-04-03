@@ -5,6 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>West Ventura Pickleball</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Additional styles for thank-you message and image fix */
+    .thank-you-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1001;
+      display: none;
+    }
+    
+    .thank-you-content {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .thank-you-content h2 {
+      color: #4CAF50;
+      margin-top: 0;
+    }
+    
+    /* Fix for Malisa's image */
+    .hero-image {
+      width: 100%;
+      max-height: 500px;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+  </style>
 </head>
 <body>
   <!-- Homepage -->
@@ -21,7 +60,7 @@
           <a href="#calendar" class="cta-button">Book a Session</a>
         </div>
         <div class="hero-images">
-          <img src="Malisa.jpg" alt="Pickleball Court" class="hero-image">
+          <img src="Malisa.jpg" alt="Coach Malisa" class="hero-image" style="object-position: top;">
           <div class="about-malisa">
             <h3>Malisa</h3>
             <p>"In retirement Malisa has found her true passion coaching Pickleball. Although she had played recreationally for several years when the opportunity arose, she jumped at the chance to become a Certified Pickleball Coach, with the PPR – Professional Pickleball Registry. In her professional life Malisa spent many years as a Corporate Trainer this coupled with her lifelong participation in a variety of sports made becoming a coach a natural progression.
@@ -80,22 +119,16 @@
           <p>Connect with other players and grow your network.</p>
         </div>
       </div>
-      <!-- Add this to your homepage section -->
-      <div id="thank-you-message" class="thank-you-container hidden">
+      
+      <!-- Thank You Message -->
+      <div id="thank-you-message" class="thank-you-container">
         <div class="thank-you-content">
           <h2>🎾 Booking Confirmed!</h2>
           <p>Thank you for booking with West Ventura Pickleball.</p>
           <p>Malisa will contact you shortly to confirm your session.</p>
-          <a href="#" class="cta-button">Return to Home</a>
+          <a href="#" class="cta-button" id="thank-you-close">Return to Home</a>
         </div>
       </div>
-
-<script>
-  // Show thank-you message when URL has #thank-you
-  if (window.location.hash === '#thank-you') {
-    document.getElementById('thank-you').style.display = 'block';
-  }
-</script>
     </main>
   </section>
 
@@ -135,43 +168,42 @@
   </section>
 
   <!-- Booking Modal -->
-<div id="booking-modal" class="modal hidden">
-  <div class="modal-content">
-    <span class="close-modal">&times;</span>
-    <h2>Book Your Session</h2>
-    <p id="selected-time-text">Selected Time: </p>
-    <form 
-      id="booking-form" 
-      action="https://formsubmit.co/malisawacker@yahoo.com" 
-      method="POST"
-    >
-      <input type="hidden" name="_subject" value="New Pickleball Booking!">
-      <input type="hidden" name="_template" value="table">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="#thank-you" id="thank-you-redirect">
-      
-      <!-- Hidden fields for booking details -->
-      <input type="hidden" id="form-day" name="Day">
-      <input type="hidden" id="form-time" name="Time">
-      <input type="hidden" id="form-date" name="Date">
-      
-      <div class="form-group">
-        <label for="name">Full Name:</label>
-        <input type="text" id="name" name="Name" required>
-      </div>
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="Email" required>
-      </div>
-      <div class="form-group">
-        <label for="comments">Special Requests:</label>
-        <textarea id="comments" name="Special Requests" rows="3"></textarea>
-      </div>
-      <button type="submit" class="submit-button">Confirm Booking</button>
-    </form>
+  <div id="booking-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Book Your Session</h2>
+      <p id="selected-time-text">Selected Time: </p>
+      <form 
+        id="booking-form" 
+        action="https://formsubmit.co/malisawacker@yahoo.com" 
+        method="POST"
+      >
+        <input type="hidden" name="_subject" value="New Pickleball Booking!">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" value="#thank-you">
+        
+        <!-- Hidden fields for booking details -->
+        <input type="hidden" id="form-day" name="Day">
+        <input type="hidden" id="form-time" name="Time">
+        <input type="hidden" id="form-date" name="Date">
+        
+        <div class="form-group">
+          <label for="name">Full Name:</label>
+          <input type="text" id="name" name="Name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="Email" required>
+        </div>
+        <div class="form-group">
+          <label for="comments">Special Requests:</label>
+          <textarea id="comments" name="Special Requests" rows="3"></textarea>
+        </div>
+        <button type="submit" class="submit-button">Confirm Booking</button>
+      </form>
+    </div>
   </div>
-</div>
-
 
   <!-- Admin Login -->
   <div id="admin-login" class="modal hidden">
@@ -205,5 +237,31 @@
   </section>
 
   <script src="script.js"></script>
+  <script>
+    // Thank you message handling
+    document.addEventListener('DOMContentLoaded', function() {
+      const thankYouMessage = document.getElementById('thank-you-message');
+      const thankYouClose = document.getElementById('thank-you-close');
+      
+      // Close thank you message
+      thankYouClose.addEventListener('click', function(e) {
+        e.preventDefault();
+        thankYouMessage.style.display = 'none';
+      });
+      
+      // Show thank you message if URL has hash
+      if (window.location.hash === '#thank-you') {
+        thankYouMessage.style.display = 'flex';
+      }
+    });
+    
+    // Image fix for Malisa's photo
+    document.addEventListener('DOMContentLoaded', function() {
+      const heroImage = document.querySelector('.hero-image');
+      if (heroImage) {
+        heroImage.style.objectPosition = 'top center';
+      }
+    });
+  </script>
 </body>
 </html>
