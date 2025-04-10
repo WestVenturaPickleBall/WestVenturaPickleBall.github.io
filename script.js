@@ -1,4 +1,3 @@
-// script.js
 document.addEventListener('DOMContentLoaded', function () {
   // DOM Elements
   const homepage = document.getElementById('homepage');
@@ -35,9 +34,42 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Week navigation
   let currentWeekOffset = 0; // 0 = current week, 1 = next week, etc.
+  let usingGoogleCalendar = true; // Start with Google Calendar view
 
-  // Initialize the calendar
-  function initCalendar() {
+  // ========== NEW GOOGLE CALENDAR EMBED FUNCTION ==========
+  function initGoogleCalendarEmbed() {
+    calendarGrid.innerHTML = '';
+    
+    // Replace with your actual Google Calendar ID
+    const calendarId = 'malisawacker@yahoo.com';
+    const timeZone = 'America%2FLos_Angeles'; // URL encoded timezone
+    
+    const embedHTML = `
+      <div class="google-calendar-embed">
+        <iframe 
+          src="https://calendar.google.com/calendar/embed?src=${encodeURIComponent(calendarId)}&ctz=${timeZone}" 
+          style="border: 0" 
+          width="100%" 
+          height="600" 
+          frameborder="0" 
+          scrolling="no">
+        </iframe>
+        <div class="calendar-toggle">
+          <button id="switch-to-original" class="cta-button">Use Original Booking System</button>
+        </div>
+      </div>
+    `;
+    
+    calendarGrid.innerHTML = embedHTML;
+    
+    document.getElementById('switch-to-original').addEventListener('click', function() {
+      usingGoogleCalendar = false;
+      initOriginalCalendar();
+    });
+  }
+
+  // ========== RENAMED ORIGINAL CALENDAR FUNCTION ==========
+  function initOriginalCalendar() {
     calendarGrid.innerHTML = '';
     
     // Calculate the start date of the current week
@@ -64,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
     weekDisplay.textContent = weekText;
     
     const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-    const startTime = 9; // 9 AM
+    const startTime = 10; // 10 AM
     const endTime = 18; // 6 PM
 
     // Create time slots
@@ -113,6 +145,28 @@ document.addEventListener('DOMContentLoaded', function () {
       });
       
       calendarGrid.appendChild(timeRow);
+    }
+
+    // Add switch back to Google Calendar button
+    const switchButton = document.createElement('button');
+    switchButton.id = 'switch-to-google';
+    switchButton.className = 'cta-button';
+    switchButton.textContent = 'View Google Calendar';
+    switchButton.style.marginTop = '20px';
+    switchButton.addEventListener('click', function() {
+      usingGoogleCalendar = true;
+      initGoogleCalendarEmbed();
+    });
+    
+    calendarGrid.appendChild(switchButton);
+  }
+
+  // ========== MODIFIED INITIALIZATION ==========
+  function initCalendar() {
+    if (usingGoogleCalendar) {
+      initGoogleCalendarEmbed();
+    } else {
+      initOriginalCalendar();
     }
   }
 
@@ -373,6 +427,9 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Initialize the calendar and testimonials on first load
+  // Initialize the calendar and testimonials on first load
   initCalendar();
-  rotateTestimonials();
+  if (typeof rotateTestimonials === 'function') {
+    rotateTestimonials();
+  }
 });

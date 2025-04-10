@@ -30,6 +30,35 @@ header p {
   display: none !important;
 }
 
+/* Add to your styles.css */
+.google-calendar-embed {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.google-calendar-embed iframe {
+  width: 100%;
+  height: 600px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.calendar-toggle {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#switch-to-original, 
+#switch-to-google {
+  background-color: #2196F3;
+}
+
+#switch-to-original:hover,
+#switch-to-google:hover {
+  background-color: #0b7dda;
+}
+
 /* Button Styles */
 .cta-button, .back-button, .admin-button, .submit-button {
   background-color: #4CAF50;
